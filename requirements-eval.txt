@@ -1,0 +1,9 @@
+# Extra packages for the evaluation and benchmark scripts in eval/ and scripts/.
+#   pip install -r requirements.txt -r requirements-eval.txt
+requests>=2.31
+matplotlib>=3.8
+seaborn>=0.13
+rouge-score>=0.1.2
+nltk>=3.8.1
+psutil>=5.9
+pynvml>=11.5

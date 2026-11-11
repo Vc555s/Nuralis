@@ -1,0 +1,42 @@
+# Nuralis configuration. Every key below is read by the backend.
+# NURALIS_LLM_ENABLED / NURALIS_LLM_MODEL in the environment override models.llm.
+
+data_sources:
+  arxiv:
+    max_results: 500            # default cap; the request's maxPapers overrides it
+    page_size: 100              # results per arXiv API page
+    categories: []              # fixed arXiv categories; empty = detect from the query
+    use_domain_detection: true  # map the query to arXiv categories before searching
+    # keyword: built-in keyword → category map (fast, offline)
+    # llm:     ask the local LLM
+    # api:     ask an external API (set api_type: openai | anthropic and api_key)
+    domain_detection_method: keyword
+
+analysis:
+  trends:
+    max_keywords: 25            # keywords kept in the trend output
+    min_frequency: 3            # drop keywords seen fewer times than this
+    use_domain_agnostic_extraction: true   # extract terms from the papers, not a fixed list
+
+models:
+  embeddings:
+    name: all-MiniLM-L6-v2      # 384-dimensional sentence embeddings
+  llm:
+    enabled: true
+    # Hugging Face causal LM, loaded in 8-bit (needs a CUDA GPU, ~8 GB VRAM for GPT-J),
+    # or a path to a local .gguf file to run through llama.cpp.
+    name: EleutherAI/gpt-j-6B
+    max_length: 2048
+    temperature: 0.5
+
+system:
+  model_timeout: 900            # seconds allowed for loading the LLM
+  enable_fallback: false        # true: fall back to a small model if the LLM fails to load
+  # true: never substitute heuristic text for LLM output; fields stay empty instead
+  strict_research_mode: true
+  eager_loading: false          # true: load all models before accepting requests
+  background_preload_llm: false # true: start loading the LLM in the background at boot
+
+insights:
+  # Allow an arXiv-keyword heuristic summary when the LLM is unavailable.
+  allow_arxiv_heuristic_fallback: false

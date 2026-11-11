@@ -1,0 +1,33 @@
+# Nuralis backend — tested on Python 3.11 (3.9 - 3.11 supported by these pins).
+#
+# The torch / transformers / bitsandbytes versions are pinned together on
+# purpose: 8-bit loading of the default LLM depends on this combination.
+
+# --- LLM + embeddings ---
+torch>=2.0.0,<2.1.0
+transformers>=4.35.0,<4.40.0
+accelerate>=0.20.3,<0.25.0
+bitsandbytes>=0.41.0,<0.42.0
+scipy>=1.11.0,<1.12.0
+sentencepiece>=0.1.99,<0.2.0
+sentence-transformers>=2.6.0,<3.0.0
+huggingface_hub>=0.20.3,<1.0.0
+
+# --- Vector store ---
+chromadb==0.4.24
+
+# --- Data ---
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0
+arxiv>=2.1.0
+
+# --- API ---
+fastapi>=0.110.0
+uvicorn[standard]>=0.22.0
+pydantic>=2.0
+pyyaml>=6.0.1
+loguru>=0.7.0
+python-dotenv>=1.0.0
+
+# --- Optional: run a GGUF model on CPU instead of the 8-bit Hugging Face model ---
+# llama-cpp-python>=0.2.0
